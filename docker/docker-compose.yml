@@ -1,8 +1,8 @@
-version: '3.7'
+version: '3.1'
 services:
   postgres:
     container_name: postgres-easyvsl
-    image: postgres
+    image: postgres:15.2-alpine
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}

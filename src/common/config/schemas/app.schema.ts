@@ -9,8 +9,6 @@ export const EasyvslSchema = {
 export const AppSchema = {
   properties: {
     name: { enum: Object.values(AppEnum) },
-    web_url: { type: 'string' },
-    app_url: { type: 'string' },
     easyvsl_api: EasyvslSchema
   }
 } as const;

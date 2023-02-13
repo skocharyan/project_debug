@@ -3,13 +3,11 @@ import { AppModule } from '@modules/app.module';
 import { AppEnum } from '@config/app.enum';
 import { config } from '@config/config';
 import { ValidationPipe, Type } from '@nestjs/common';
-import { ServiceExceptionFilter } from '@common/filters';
 import { NestLogger } from '@modules/secondary/logger/nest-logger';
 import { logger } from '@modules/secondary/logger';
 
 async function bootstrap() {
   const { module, port } = getApp(config.app.name);
-
   const app = await NestFactory.create(module, {
     cors: true,
     logger: new NestLogger()
@@ -27,9 +25,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true
     })
   );
-
   registerErrorHandlers();
-  app.useGlobalFilters(new ServiceExceptionFilter());
 
   await app.listen(port);
   const appUrl = await app.getUrl();

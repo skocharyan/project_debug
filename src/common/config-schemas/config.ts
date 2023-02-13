@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
 import Ajv, { JTDDataType } from 'ajv/dist/jtd';
+import * as _ from 'lodash';
 import {
   ConfigLocalLogger,
   DEFAULT_CONFIG_META_ENV_VERSION_DEPTH_SUFFIX_DEFAULT,
@@ -78,6 +78,7 @@ export const getNestConfig = ({
       envVersionSuffix,
       envVersionDepthSuffix
     });
+
     if (!validate(configData)) {
       logger.error('Not valid config', {
         err: validate.errors,
@@ -112,6 +113,7 @@ function iterateSchema({
 }) {
   const resolvePath = (() => {
     const customPath = _.get(schema, `metadata.${DEFAULT_CONFIG_META_PATH}`);
+
     if (!isSafe(customPath) || customPath === '') return currentPath;
 
     const splitPath = currentPath.split('.');

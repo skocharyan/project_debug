@@ -1,0 +1,10 @@
+database:
+  port: 5432
+  host: 'localhost'
+  username: 'postgres'
+  password: '123'
+  database: 'easyvsl'
+  ssl: false
+  migrations: false
+  logging: true
+  synchronize: false

@@ -1,0 +1,11 @@
+/.git
+/.vscode
+
+**/dist
+**/es
+**/esm
+**/lib
+**/node_modules
+**/build
+**/src/migrations
+.eslintrc.js

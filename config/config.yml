@@ -1,0 +1,5 @@
+# app
+app:
+  name: "easyvsl_api"
+  easyvsl_api:
+    port: 4000

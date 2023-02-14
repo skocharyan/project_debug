@@ -22,7 +22,13 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "start:app:easyvsl-api": "APP_NAME='easyvsl_api' nest start --watch",
     "docker:up": "docker compose --project-directory ./docker -p easyvsl --env-file ./docker/.env-docker-compose up -d",
-    "docker:down": "docker compose --project-directory ./docker -p easyvsl down"
+    "docker:down": "docker compose --project-directory ./docker -p easyvsl down",
+    "migration:run": "yarn typeorm:cli migration:run",
+    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/common/config/typeorm.config.ts",
+    "migration:revert": "yarn typeorm:cli migration:revert",
+    "migration:generate": "yarn typeorm:cli migration:generate -d src/orm/migrations -n",
+    "migration:create": "yarn typeorm:cli migration:create -n",
+    "migration:drop": "yarn typeorm:cli schema:drop"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -43,7 +49,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "ts-jenum": "^2.2.2",
-    "typeorm": "^0.3.12",
+    "typeorm": "~0.2.45",
     "typeorm-naming-strategies": "^4.1.0",
     "typescript-eslint": "^0.0.1-alpha.0"
   },

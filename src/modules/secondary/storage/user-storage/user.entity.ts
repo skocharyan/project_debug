@@ -25,7 +25,7 @@ export class User {
   @Column({
     nullable: true
   })
-  middleMame: string;
+  middleName: string;
 
   @Column({
     unique: true

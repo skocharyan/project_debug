@@ -1,6 +1,7 @@
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as ms from 'ms';
+import { join } from 'path';
 
 import { DatabaseLogger } from '@modules/secondary/logger/database-logger';
 import { logger } from '@modules/secondary/logger';
@@ -12,7 +13,7 @@ const poolErrorHandler = (err: Error): void => {
   logger.error({ err }, 'Database pool error');
 };
 
-export const ORM_CONFIG: TypeOrmModuleOptions = {
+const ORM_CONFIG: TypeOrmModuleOptions = {
   type: 'postgres',
   host: config.database.host,
   port: config.database.port,
@@ -20,11 +21,9 @@ export const ORM_CONFIG: TypeOrmModuleOptions = {
   password: config.database.password,
   database: config.database.database,
   entities: [
-    // join(__dirname, '../../modules/secondary/storage/**/', '*.entity.{ts,js}')
+    join(__dirname, '../../modules/secondary/storage/**/', '*.entity.{ts,js}')
   ],
-  migrations: [
-    // join(__dirname, '../../orm/migrations/*.ts')
-  ],
+  migrations: [join(__dirname, '../../orm/migrations/*.ts')],
   ssl: config.database.ssl,
   extra: config.database.ssl ? { ssl: { rejectUnauthorized: false } } : {},
   synchronize: config.database.synchronize,
@@ -36,4 +35,4 @@ export const ORM_CONFIG: TypeOrmModuleOptions = {
   namingStrategy: new SnakeNamingStrategy()
 };
 
-// = ORM_CONFIG;
+export = ORM_CONFIG;

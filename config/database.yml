@@ -1,6 +1,6 @@
 database:
   port: 5432
-  host: 'localhost'
+  host: '127.0.0.1'
   username: 'postgres'
   password: 'strong1password'
   database: 'easyvsl'

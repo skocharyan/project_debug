@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { StorageModule } from '@modules/secondary/storage/storage.module';
 
 @Module({
-  imports: [],
+  imports: [StorageModule],
   controllers: []
 })
 export class AppModule {}

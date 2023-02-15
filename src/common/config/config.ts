@@ -29,7 +29,6 @@ export const ConfigScheme = {
 
 export type CommonConfig = JTDDataType<typeof ConfigScheme>;
 export type Config = CommonConfig;
-
 export const config: Config = {
   ...(getNestConfig({
     schema: ConfigScheme

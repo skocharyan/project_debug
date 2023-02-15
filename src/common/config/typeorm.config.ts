@@ -1,5 +1,4 @@
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as ms from 'ms';
 import { join } from 'path';
 
@@ -13,7 +12,7 @@ const poolErrorHandler = (err: Error): void => {
   logger.error({ err }, 'Database pool error');
 };
 
-const ORM_CONFIG: TypeOrmModuleOptions = {
+export default {
   type: 'postgres',
   host: config.database.host,
   port: config.database.port,
@@ -34,5 +33,3 @@ const ORM_CONFIG: TypeOrmModuleOptions = {
   maxQueryExecutionTime: ms('1s'),
   namingStrategy: new SnakeNamingStrategy()
 };
-
-export = ORM_CONFIG;

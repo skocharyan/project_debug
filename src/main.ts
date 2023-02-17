@@ -5,6 +5,8 @@ import { config } from '@config/config';
 import { ValidationPipe, Type } from '@nestjs/common';
 import { NestLogger } from '@modules/secondary/logger/nest-logger';
 import { logger } from '@modules/secondary/logger';
+import { isDev } from '@config/environment';
+import { setupSwagger } from './swagger';
 
 async function bootstrap() {
   const { module, port } = getApp(config.app.name);
@@ -17,6 +19,8 @@ async function bootstrap() {
     origin: '*'
   });
 
+  app.setGlobalPrefix(config.swagger.global_prefix);
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -26,6 +30,10 @@ async function bootstrap() {
     })
   );
   registerErrorHandlers();
+
+  if (isDev()) {
+    setupSwagger(app);
+  }
 
   await app.listen(port);
   const appUrl = await app.getUrl();

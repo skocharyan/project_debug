@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '@modules/app.module';
 import { AppEnum } from '@config/app.enum';
 import { config } from '@config/config';
 import { ValidationPipe, Type } from '@nestjs/common';
 import { NestLogger } from '@modules/secondary/logger/nest-logger';
 import { logger } from '@modules/secondary/logger';
+import { AppModule } from '@modules/app.module';
 
 async function bootstrap() {
   const { module, port } = getApp(config.app.name);

@@ -12,6 +12,8 @@ lerna-debug.log*
 
 *http
 
+deepgram/*
+
 # OS
 .DS_Store
 

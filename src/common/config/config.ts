@@ -5,6 +5,7 @@ import { logger } from '@modules/secondary/logger';
 import { AppSchema } from './schemas';
 import { DatabaseSchema } from '@config/schemas/database.shema';
 import { JwtSchema } from './schemas/jwt.schema';
+import { DeepGramSchema } from './schemas/deepgram.schema';
 
 const configFolder = path.join(
   process.cwd(),
@@ -25,7 +26,8 @@ export const ConfigScheme = {
   properties: {
     app: AppSchema,
     database: DatabaseSchema,
-    jwt: JwtSchema
+    jwt: JwtSchema,
+    deepGram: DeepGramSchema
   }
 } as const;
 

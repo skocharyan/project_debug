@@ -7,3 +7,8 @@ app:
 jwt:
   secret: 'secret'
   expires_in: 86400
+
+#DeepGram
+deepGram:
+  project_id: 0
+  key: 'key'

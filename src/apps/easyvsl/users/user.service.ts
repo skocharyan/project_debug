@@ -12,7 +12,6 @@ export class UserService {
   async getUser(
     criteria: TAtLeastOneRequired<User>
   ): Promise<User | undefined> {
-    return await this.userStorageService.findOne(criteria);
-    // return await this.userStorageService.find();
+    return this.userStorageService.findOne(criteria);
   }
 }

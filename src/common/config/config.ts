@@ -4,6 +4,7 @@ import { JTDDataType } from 'ajv/dist/types/jtd-schema';
 import { logger } from '@modules/secondary/logger';
 import { AppSchema } from './schemas';
 import { DatabaseSchema } from '@config/schemas/database.shema';
+import { JwtSchema } from './schemas/jwt.schema';
 
 const configFolder = path.join(
   process.cwd(),
@@ -23,7 +24,8 @@ initNestConfig({
 export const ConfigScheme = {
   properties: {
     app: AppSchema,
-    database: DatabaseSchema
+    database: DatabaseSchema,
+    jwt: JwtSchema
   }
 } as const;
 

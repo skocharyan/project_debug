@@ -1,5 +1,9 @@
 # app
 app:
-  name: "easyvsl_api"
+  name: 'easyvsl_api'
   easyvsl_api:
     port: 4000
+# jwt
+jwt:
+  secret: 'secret'
+  expires_in: 86400

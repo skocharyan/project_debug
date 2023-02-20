@@ -3,8 +3,9 @@ import { NotAcceptableException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserLoginDto } from '../dtos/user.login.dto';
+import { UserLoginDto } from './common/dtos/user.login.dto';
 import { UserService } from '../users/user.service';
+import { LoginResponse } from './models/login.response';
 
 @Injectable()
 export class AuthService {
@@ -28,13 +29,15 @@ export class AuthService {
     return user;
   }
 
-  async login(userLoginDto: UserLoginDto) {
+  async login(userLoginDto: UserLoginDto): Promise<LoginResponse> {
     const payload = {
       email: userLoginDto.email,
       password: userLoginDto.password
     };
+    const user = await this.userService.getUser({ email: userLoginDto.email });
 
     return {
+      userId: user.id,
       access_token: this.jwtService.sign(payload)
     };
   }

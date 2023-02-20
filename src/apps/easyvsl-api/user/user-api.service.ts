@@ -44,7 +44,7 @@ export class UserApiService {
     return UserDtoMapper.toBaseOutputDto(createdUser);
   }
 
-  private async userExistsOrThrowException(email: string) {
+  private async userExistsOrThrowException(email: string): Promise<void> {
     const userInDB = await this.userStorageService.findOne({ email });
 
     if (userInDB) {

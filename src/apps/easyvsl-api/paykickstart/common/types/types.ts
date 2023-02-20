@@ -1,4 +1,4 @@
-import { PayKickstartIPNEvent } from '../../gateways/paykickstart/common/enums';
+import { PayKickstartIPNEvent } from '../enums/paykickstart.enum';
 
 export type TPayKickstartEventsHandleEventPayload = {
   affiliate_commission_amount: string;
@@ -59,8 +59,6 @@ export type TPayKickstartEventsHandleEventPayload = {
 
 export type TPayKickstartProductsByTypesEventHandlersPayload = {
   eventPayload: TPayKickstartEventsHandleEventPayload;
-  // systemProduct: Product;
-  // systemPurchase: Purchase;
   companyId: number;
 };
 

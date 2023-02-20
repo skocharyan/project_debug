@@ -1,20 +1,21 @@
 import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
-import { PayKickstartEventsHandlerService } from '../../purchases/events-handler/pay-kickstart-events-handler.service';
-import { TPayKickstartEventsHandleEventPayload } from '../../purchases/events-handler/types';
+import { PaykickstartService } from './paykickstart.service';
+import { TPayKickstartEventsHandleEventPayload } from './common/types/types';
 import { config } from '@config/config';
-import { validatePayKickstartIpn } from './common/validate-ipn.utility';
+import { validatePayKickstartIpn } from './common/utils/validate-ipn.utils';
 
 @Controller('paykickstart')
-export class PayKickstartGatewayController {
+export class PaykickstartController {
   constructor(
-    private payKickstartEventsHandler: PayKickstartEventsHandlerService
+    private readonly payKickstartEventsHandler: PaykickstartService
   ) {}
 
   @Post('/events')
-  async handleEvent(@Body() payload): Promise<void> {
+  async handleEvent(
+    @Body() payload: TPayKickstartEventsHandleEventPayload
+  ): Promise<void> {
     const payKickstartSecretKey = config.paykickstart.secret_key;
 
-    // TODO It need to be changed
     const isValidPayload = validatePayKickstartIpn(
       payload,
       payKickstartSecretKey

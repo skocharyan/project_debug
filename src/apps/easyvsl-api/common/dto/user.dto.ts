@@ -1,5 +1,5 @@
-export class UserDto {
-  constructor(data: UserDto) {
+export class UserOutput {
+  constructor(data: UserOutput) {
     Object.assign(this, data);
   }
 

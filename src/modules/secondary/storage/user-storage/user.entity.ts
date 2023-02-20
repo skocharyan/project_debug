@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -6,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import { HASH_ROUNDS_QTY } from '@modules/secondary/crypto/constants';
+import * as bcrypt from 'bcryptjs';
 
 @Entity('user')
 export class User {
@@ -45,4 +48,9 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, HASH_ROUNDS_QTY);
+  }
 }

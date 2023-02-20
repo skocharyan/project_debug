@@ -1,13 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   TPayKickstartEventsHandleEventPayload,
   TPayKickstartEventsHandler
-} from './types';
-import { PayKickstartIPNEvent } from '../../gateways/paykickstart/common/enums';
-import { UserApiService } from '../../../user/user-api.service';
+} from './common/types/types';
+import { PayKickstartIPNEvent } from './common/enums/paykickstart.enum';
+import { UserApiService } from '../user/user-api.service';
 
 @Injectable()
-export class PayKickstartEventsHandlerService {
+export class PaykickstartService {
   eventHandlersMap: Partial<
     Record<PayKickstartIPNEvent, TPayKickstartEventsHandler>
   > = {
@@ -15,7 +15,7 @@ export class PayKickstartEventsHandlerService {
       this.onSubscriptionPaidEvent.bind(this)
   };
 
-  constructor(private userApiService: UserApiService) {}
+  constructor(private readonly userApiService: UserApiService) {}
 
   async handleEvent(
     payload: TPayKickstartEventsHandleEventPayload
@@ -26,7 +26,7 @@ export class PayKickstartEventsHandlerService {
       return;
     }
 
-    return handler({ payload });
+    await handler({ payload });
   }
 
   protected async onSubscriptionPaidEvent({
@@ -40,6 +40,14 @@ export class PayKickstartEventsHandlerService {
       buyer_email: email
     } = payload;
 
-    await this.userApiService.userCreate({ firstName, lastName, email });
+    const createdUser = await this.userApiService.userCreate({
+      firstName,
+      lastName,
+      email
+    });
+
+    if (!createdUser) {
+      throw new BadRequestException();
+    }
   }
 }

@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
 
-import { HASH_ROUNDS_QTY } from '@modules/secondary/crypto/constants';
+import {
+  HASH_ROUNDS_QTY,
+  RANDOM_GEN_CHARS
+} from '@modules/secondary/crypto/constants';
 
 @Injectable()
 export class CryptoService {
-  constructor() {}
-
   async hash(value: string, rounds?: number): Promise<string> {
     return bcrypt.hash(value, rounds || HASH_ROUNDS_QTY);
   }
@@ -17,10 +18,9 @@ export class CryptoService {
   }
 
   async generateRandomPassword(
-    length: number
-  ): Promise<Record<string, string>> {
-    const chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.!@#$%^&*';
+    length: number = HASH_ROUNDS_QTY
+  ): Promise<string> {
+    const chars = RANDOM_GEN_CHARS;
     const bytes = crypto.randomBytes(length);
     const result = new Array(length);
 
@@ -28,10 +28,6 @@ export class CryptoService {
       result[i] = chars[bytes[i] % chars.length];
     }
 
-    const randomGenPassword = result.join('');
-
-    const hashedPassword = await this.hash(randomGenPassword);
-
-    return { randomGenPassword, hashedPassword };
+    return result.join('');
   }
 }

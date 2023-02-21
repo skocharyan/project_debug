@@ -3,3 +3,11 @@ app:
   name: "easyvsl_api"
   easyvsl_api:
     port: 4000
+
+# swagger
+swagger:
+  global_prefix: 'api'
+  path: 'swagger'
+  title: 'EasyVSL api document, for development purpose only'
+  description: 'API description'
+  version: '1.0'

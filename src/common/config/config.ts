@@ -2,8 +2,8 @@ import * as path from 'path';
 import { getNestConfig, initNestConfig } from '@common/config-schemas';
 import { JTDDataType } from 'ajv/dist/types/jtd-schema';
 import { logger } from '@modules/secondary/logger';
-import { AppSchema } from './schemas';
-import { DatabaseSchema } from '@config/schemas/database.shema';
+import { AppSchema, DatabaseSchema, PayKickStartSchema } from './schemas';
+import { SwaggerSchema } from '@config/schemas/swagger.shema';
 
 const configFolder = path.join(
   process.cwd(),
@@ -11,9 +11,11 @@ const configFolder = path.join(
   process.env.CONFIG_PROFILE || './'
 );
 
-const configFiles = ['./config.yml', './database.yml'].map((file) => {
-  return path.resolve(configFolder, file);
-});
+const configFiles = ['./config.yml', './database.yml', './payments.yml'].map(
+  (file) => {
+    return path.resolve(configFolder, file);
+  }
+);
 
 initNestConfig({
   files: configFiles,
@@ -23,7 +25,9 @@ initNestConfig({
 export const ConfigScheme = {
   properties: {
     app: AppSchema,
-    database: DatabaseSchema
+    database: DatabaseSchema,
+    paykickstart: PayKickStartSchema,
+    swagger: SwaggerSchema
   }
 } as const;
 

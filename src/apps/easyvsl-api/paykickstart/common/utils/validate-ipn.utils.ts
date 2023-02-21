@@ -1,15 +1,15 @@
 import { createHmac } from 'crypto';
+import { ForbiddenException } from '@nestjs/common';
+import { config } from '@config/config';
 
 type TPayload = {
   verification_code: string;
   hash: string;
 };
 
-export function validatePayKickstartIpn(
-  payload: TPayload,
-  secretKey: string
-): boolean {
+export function validatePayKickstartIpn(payload: TPayload): void {
   // Hash received
+  const secretKey: string = config.paykickstart.secret_key;
   const ipnHash = payload.hash;
 
   const payloadWithoutEncKeys = { ...payload };
@@ -42,5 +42,9 @@ export function validatePayKickstartIpn(
     .update(joinedValues)
     .digest('hex');
 
-  return hashed === ipnHash;
+  const isValidPayload = hashed === ipnHash;
+
+  if (!isValidPayload) {
+    throw new ForbiddenException();
+  }
 }

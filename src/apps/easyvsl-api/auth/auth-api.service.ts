@@ -11,11 +11,10 @@ export class AuthApiService {
     private readonly cryptoService: CryptoService
   ) {}
 
-  async resetPassword({
-    email,
-    currentPassword,
-    newPassword
-  }: AuthPasswordResetRequest): Promise<{ msg: string }> {
+  async resetPassword(
+    passwordResetRequestData: AuthPasswordResetRequest
+  ): Promise<{ msg: string }> {
+    const { email, currentPassword, newPassword } = passwordResetRequestData;
     const user = await this.validateUser(email, currentPassword);
 
     if (!user) {

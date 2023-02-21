@@ -1,10 +1,12 @@
-import { IsNotEmpty, IsString, Matches, IsEmail } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Match } from '../common/match.decorator';
+import { IsPassword } from '../common/isPassword.decorator';
 
 export class AuthPasswordResetRequest {
+  @IsEmail()
   @IsString()
   @IsNotEmpty()
-  @IsEmail()
   @ApiProperty()
   email: string;
 
@@ -16,8 +18,10 @@ export class AuthPasswordResetRequest {
   @IsString()
   @ApiProperty()
   @IsNotEmpty()
-  @Matches(/(?=^.{8,}$)(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.*[a-z])(?=.*[0-9])/, {
-    message: 'password is too weak'
-  })
+  @IsPassword('newPassword')
   newPassword: string;
+
+  @IsString()
+  @Match('newPassword', { message: 'Passwords do not match' })
+  confirmPassword: string;
 }

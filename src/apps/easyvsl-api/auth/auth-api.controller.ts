@@ -1,5 +1,5 @@
-import { Body, Controller, Patch } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, HttpCode, HttpStatus, Patch } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthPasswordResetRequest } from './models/password-reset.request';
 import { AuthApiService } from './auth-api.service';
 
@@ -8,7 +8,8 @@ import { AuthApiService } from './auth-api.service';
 export class AuthApiController {
   constructor(private readonly authApiService: AuthApiService) {}
 
-  @Patch('change-password')
+  @Patch('reset-password')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     description: 'Password reset'
   })
@@ -17,9 +18,13 @@ export class AuthApiController {
     type: AuthPasswordResetRequest,
     required: true
   })
-  async resetUserPassword(
-    @Body() payload: AuthPasswordResetRequest
-  ): Promise<{ msg: string }> {
-    return this.authApiService.resetPassword(payload);
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User update password successfully'
+  })
+  async resetPassword(
+    @Body() passwordResetRequest: AuthPasswordResetRequest
+  ): Promise<void> {
+    await this.authApiService.resetPassword(passwordResetRequest);
   }
 }

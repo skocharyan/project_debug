@@ -6,6 +6,7 @@ import { CreateUserInput, SignUpRequest } from './models';
 import { PostmarkService } from '@modules/secondary/mail/postmark.service';
 import { buildEmailTemplateUrl } from './common/utils/url.utils';
 import { MessageSendingResponse } from 'postmark/dist/client/models';
+import { SendEmailInput } from './models/sendEmailInput';
 
 @Injectable()
 export class UserApiService {
@@ -23,14 +24,14 @@ export class UserApiService {
 
     // Generate random password
     const generatedRandomPassword =
-      await this.cryptoService.generateRandomPassword();
+      await this.cryptoService.generatedPassword();
 
     createdUser = await this.createUser({
       ...payload,
       password: generatedRandomPassword
     });
 
-    await this.sendVerificationUserEmail({
+    await this.sendGeneratedPasswordUserEmail({
       email: createdUser.email,
       userFirstName: createdUser.firstName,
       password: generatedRandomPassword
@@ -55,15 +56,11 @@ export class UserApiService {
     });
   }
 
-  private async sendVerificationUserEmail({
-    email,
-    userFirstName,
-    password
-  }: {
-    email: string;
-    userFirstName: string;
-    password: string;
-  }): Promise<MessageSendingResponse> {
+  private async sendGeneratedPasswordUserEmail(
+    userEmailData: SendEmailInput
+  ): Promise<MessageSendingResponse> {
+    const { email, userFirstName, password } = userEmailData;
+
     return this.postmarkService.sendEmailVerification(
       {
         link: buildEmailTemplateUrl(),

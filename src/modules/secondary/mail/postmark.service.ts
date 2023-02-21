@@ -43,7 +43,7 @@ export class PostmarkService {
     }
 
     try {
-      return this.client.sendEmail({
+      return await this.client.sendEmail({
         To: to,
         Subject: subject,
         From: FROM_SENDER,

@@ -1,0 +1,59 @@
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { AuthPasswordResetRequest } from './models/password-reset.request';
+import { UserStorageService } from '@modules/secondary/storage/user-storage/user-storage.service';
+import { CryptoService } from '@modules/secondary/crypto/crypto.service';
+import { User } from '@modules/secondary/storage/user-storage/user.entity';
+
+@Injectable()
+export class AuthApiService {
+  constructor(
+    private readonly userStorageService: UserStorageService,
+    private readonly cryptoService: CryptoService
+  ) {}
+
+  async resetPassword({
+    email,
+    currentPassword,
+    newPassword
+  }: AuthPasswordResetRequest): Promise<{ msg: string }> {
+    const user = await this.validateUser(email, currentPassword);
+
+    if (!user) {
+      throw new ForbiddenException(
+        `Wrong Credentials Please check your email address and password to confirm it is correct.`
+      );
+    }
+
+    await this.userStorageService.changePassword(
+      {
+        id: user.id
+      },
+      newPassword
+    );
+
+    return { msg: 'Password successfully reset' };
+  }
+
+  async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.userStorageService.findOne({
+      email
+    });
+
+    if (!user) {
+      throw new ForbiddenException(
+        `Wrong Credentials Please check your email address and password to confirm it is correct.`
+      );
+    }
+
+    const isPasswordValid = await this.cryptoService.compare(
+      password,
+      user.password
+    );
+
+    if (!isPasswordValid) {
+      return null;
+    }
+
+    return user;
+  }
+}

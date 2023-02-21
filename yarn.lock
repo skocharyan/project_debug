@@ -1589,6 +1589,13 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
+axios@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
+  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
+  dependencies:
+    follow-redirects "^1.14.7"
+
 babel-jest@^29.4.2:
   version "29.4.2"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.4.2.tgz#b17b9f64be288040877cbe2649f91ac3b63b2ba6"
@@ -3046,6 +3053,11 @@ flatted@^3.1.0:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
+
+follow-redirects@^1.14.7:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 fork-ts-checker-webpack-plugin@7.3.0:
   version "7.3.0"
@@ -5056,6 +5068,11 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+nestjs-pino@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/nestjs-pino/-/nestjs-pino-3.1.2.tgz#3c3aadba3697ddb7b95858ce662c4eb59d0b1b99"
+  integrity sha512-Rxt9v/OlHwurE2GPyBlHVjzCLCnxIPxGa+Esligij412zEcqqB6kka5MhKAk3l61u1jyTLx3Mzol+HQrR6/f9w==
+
 netmask@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
@@ -5587,6 +5604,13 @@ postgres-interval@^1.1.0:
   integrity sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==
   dependencies:
     xtend "^4.0.0"
+
+postmark@^3.0.15:
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/postmark/-/postmark-3.0.15.tgz#dfb1dabb5dbd10793c2f2eae90725276110931ac"
+  integrity sha512-s5m1qMb0ECEHW+Kv+By+2CAzfNXjUiGkTSU1avWPeh/QitdLzWwK8Q0aBB249KqYN2mS2JGJsxxfeaYIqnhhHA==
+  dependencies:
+    axios "^0.25.0"
 
 prelude-ls@^1.2.1:
   version "1.2.1"

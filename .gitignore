@@ -10,6 +10,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+*http
+
+deepgram/*
+
 # OS
 .DS_Store
 

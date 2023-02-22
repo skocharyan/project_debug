@@ -8,5 +8,5 @@ export class LoginResponse {
 
   @Expose()
   @ApiProperty()
-  access_token: string;
+  accessToken: string;
 }

@@ -1,7 +1,18 @@
-import { Body, Controller, HttpCode, HttpStatus, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Post,
+  UseGuards
+} from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthPasswordResetRequest } from './models/password-reset.request';
 import { AuthApiService } from './auth-api.service';
+import { AuthGuard } from '@nestjs/passport';
+import { UserLoginDto } from '../user/common/dtos/user.login.dto';
+import { LoginResponse } from './models/login.response';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -26,5 +37,11 @@ export class AuthApiController {
     @Body() passwordResetRequest: AuthPasswordResetRequest
   ): Promise<void> {
     await this.authApiService.resetPassword(passwordResetRequest);
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post('/login')
+  async logIn(@Body() userLoginDto: UserLoginDto): Promise<LoginResponse> {
+    return this.authApiService.login(userLoginDto);
   }
 }

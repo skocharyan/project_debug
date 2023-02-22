@@ -2,7 +2,6 @@ import * as path from 'path';
 import { getNestConfig, initNestConfig } from '@common/config-schemas';
 import { JTDDataType } from 'ajv/dist/types/jtd-schema';
 import { logger } from '@modules/secondary/logger';
-import { DatabaseSchema } from '@config/schemas/database.shema';
 import { JwtSchema } from './schemas/jwt.schema';
 import { DeepGramSchema } from './schemas/deepgram.schema';
 import { AppSchema, DatabaseSchema, PayKickStartSchema } from './schemas';
@@ -31,7 +30,7 @@ export const ConfigScheme = {
     app: AppSchema,
     database: DatabaseSchema,
     jwt: JwtSchema,
-    deepGram: DeepGramSchema
+    deepGram: DeepGramSchema,
     paykickstart: PayKickStartSchema,
     swagger: SwaggerSchema,
     postmark: PostmarkSchema

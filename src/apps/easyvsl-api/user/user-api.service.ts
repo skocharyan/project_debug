@@ -7,6 +7,7 @@ import { PostmarkService } from '@modules/secondary/mail/postmark.service';
 import { buildEmailTemplateUrl } from './common/utils/url.utils';
 import { MessageSendingResponse } from 'postmark/dist/client/models';
 import { SendEmailInput } from './models/sendEmailInput';
+import { TAtLeastOneRequired } from '@common/types/utils/types';
 
 @Injectable()
 export class UserApiService {
@@ -71,5 +72,11 @@ export class UserApiService {
         to: email
       }
     );
+  }
+
+  async getUser(
+    criteria: TAtLeastOneRequired<User>
+  ): Promise<User | undefined> {
+    return this.userStorageService.findOne(criteria);
   }
 }

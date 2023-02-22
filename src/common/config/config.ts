@@ -2,10 +2,12 @@ import * as path from 'path';
 import { getNestConfig, initNestConfig } from '@common/config-schemas';
 import { JTDDataType } from 'ajv/dist/types/jtd-schema';
 import { logger } from '@modules/secondary/logger';
-import { AppSchema } from './schemas';
 import { DatabaseSchema } from '@config/schemas/database.shema';
 import { JwtSchema } from './schemas/jwt.schema';
 import { DeepGramSchema } from './schemas/deepgram.schema';
+import { AppSchema, DatabaseSchema, PayKickStartSchema } from './schemas';
+import { SwaggerSchema } from '@config/schemas/swagger.shema';
+import { PostmarkSchema } from '@config/schemas/mail.schema';
 
 const configFolder = path.join(
   process.cwd(),
@@ -13,9 +15,11 @@ const configFolder = path.join(
   process.env.CONFIG_PROFILE || './'
 );
 
-const configFiles = ['./config.yml', './database.yml'].map((file) => {
-  return path.resolve(configFolder, file);
-});
+const configFiles = ['./config.yml', './database.yml', './payments.yml'].map(
+  (file) => {
+    return path.resolve(configFolder, file);
+  }
+);
 
 initNestConfig({
   files: configFiles,
@@ -28,6 +32,9 @@ export const ConfigScheme = {
     database: DatabaseSchema,
     jwt: JwtSchema,
     deepGram: DeepGramSchema
+    paykickstart: PayKickStartSchema,
+    swagger: SwaggerSchema,
+    postmark: PostmarkSchema
   }
 } as const;
 

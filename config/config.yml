@@ -1,8 +1,10 @@
 # app
 app:
   name: 'easyvsl_api'
+  web_url: 'http://localhost:3000'
   easyvsl_api:
     port: 4000
+
 # jwt
 jwt:
   secret: 'secret'
@@ -12,3 +14,15 @@ jwt:
 deepGram:
   project_id: 0
   key: 'key'
+
+# swagger
+swagger:
+  global_prefix: 'api'
+  path: 'swagger'
+  title: 'EasyVSL api document, for development purpose only'
+  description: 'API description'
+  version: '1.0'
+
+# postmark
+postmark:
+  api_token: 'ba0b534a-a83e-4b0f-88d2-dbbacf4ebf4c'

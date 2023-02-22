@@ -24,7 +24,7 @@ export class UserApiService {
 
     // Generate random password
     const generatedRandomPassword =
-      await this.cryptoService.generatedPassword();
+      await this.cryptoService.generatingRandomPassword();
 
     createdUser = await this.createUser({
       ...payload,

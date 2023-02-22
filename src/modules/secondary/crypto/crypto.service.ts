@@ -17,7 +17,9 @@ export class CryptoService {
     return bcrypt.compare(value, hash);
   }
 
-  async generatedPassword(length: number = HASH_ROUNDS_QTY): Promise<string> {
+  async generatingRandomPassword(
+    length: number = HASH_ROUNDS_QTY
+  ): Promise<string> {
     const chars = RANDOM_GEN_CHARS;
     const bytes = crypto.randomBytes(length);
     const result = new Array(length);

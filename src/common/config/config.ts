@@ -4,6 +4,7 @@ import { JTDDataType } from 'ajv/dist/types/jtd-schema';
 import { logger } from '@modules/secondary/logger';
 import { AppSchema, DatabaseSchema, PayKickStartSchema } from './schemas';
 import { SwaggerSchema } from '@config/schemas/swagger.shema';
+import { PostmarkSchema } from '@config/schemas/mail.schema';
 
 const configFolder = path.join(
   process.cwd(),
@@ -27,7 +28,8 @@ export const ConfigScheme = {
     app: AppSchema,
     database: DatabaseSchema,
     paykickstart: PayKickStartSchema,
-    swagger: SwaggerSchema
+    swagger: SwaggerSchema,
+    postmark: PostmarkSchema
   }
 } as const;
 

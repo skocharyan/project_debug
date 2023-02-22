@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from '../user/common/dtos/user.login.dto';
 import { LoginResponse } from './models/login.response';
 import { UserApiService } from '../user/user-api.service';
+import { IJwtPayloadType } from '@common/jwt/types';
 
 @Injectable()
 export class AuthApiService {
@@ -63,11 +64,13 @@ export class AuthApiService {
   }
 
   async login(userLoginDto: UserLoginDto): Promise<LoginResponse> {
-    const payload = {
+    const user = await this.userService.getUser({ email: userLoginDto.email });
+
+    const payload: IJwtPayloadType = {
+      sub: user.id,
       email: userLoginDto.email,
       password: userLoginDto.password
     };
-    const user = await this.userService.getUser({ email: userLoginDto.email });
 
     return {
       userId: user.id,

@@ -1,9 +1,9 @@
-import { User } from '@modules/secondary/storage/user-storage/user.entity';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { config } from '@config/config';
 import { UserApiService } from '../../apps/easyvsl-api/user/user-api.service';
+import { IJwtPayloadType } from '@common/jwt/types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -11,13 +11,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
-      secretOrKey: config.jwt.secret,
-      usernameField: 'email'
+      secretOrKey: config.jwt.secret
     });
   }
 
-  async validate(email: string): Promise<User> {
-    const user = this.userService.getUser({ email });
+  async validate(payload: IJwtPayloadType) {
+    const email = payload.email;
+    const user = await this.userService.getUser({ email });
 
     if (!user) {
       throw new UnauthorizedException();

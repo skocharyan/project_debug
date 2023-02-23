@@ -10,8 +10,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-*http
-
+*.http
+.vscode
 deepgram/*
 
 # OS

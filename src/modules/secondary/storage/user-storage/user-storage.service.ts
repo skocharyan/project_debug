@@ -1,4 +1,3 @@
-import { TAtLeastOneRequired } from '@common/types/utils/types';
 import { User } from '@modules/secondary/storage/user-storage/user.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -41,13 +40,5 @@ export class UserStorageService {
     } catch (error) {
       throw new BadRequestException('Something went wrong');
     }
-  }
-
-  async findOne(
-    criteria: TAtLeastOneRequired<User>
-  ): Promise<User | undefined> {
-    return this.repository.findOne({
-      where: criteria
-    });
   }
 }

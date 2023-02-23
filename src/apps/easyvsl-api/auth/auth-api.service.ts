@@ -3,12 +3,18 @@ import { AuthPasswordResetRequest } from './models/password-reset.request';
 import { UserStorageService } from '@modules/secondary/storage/user-storage/user-storage.service';
 import { CryptoService } from '@modules/secondary/crypto/crypto.service';
 import { User } from '@modules/secondary/storage/user-storage/user.entity';
+import { JwtService } from '@nestjs/jwt';
+import { UserLoginDto } from '../user/common/dtos/user.login.dto';
+import { LoginResponse } from './models/login.response';
+import { UserApiService } from '../user/user-api.service';
 
 @Injectable()
 export class AuthApiService {
   constructor(
     private readonly userStorageService: UserStorageService,
-    private readonly cryptoService: CryptoService
+    private readonly cryptoService: CryptoService,
+    private readonly userService: UserApiService,
+    private readonly jwtService: JwtService
   ) {}
 
   async resetPassword(
@@ -54,5 +60,18 @@ export class AuthApiService {
     }
 
     return user;
+  }
+
+  async login(userLoginDto: UserLoginDto): Promise<LoginResponse> {
+    const payload = {
+      email: userLoginDto.email,
+      password: userLoginDto.password
+    };
+    const user = await this.userService.getUser({ email: userLoginDto.email });
+
+    return {
+      userId: user.id,
+      accessToken: this.jwtService.sign(payload)
+    };
   }
 }

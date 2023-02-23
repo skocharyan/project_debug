@@ -4,10 +4,10 @@ import { UserStorageService } from '@modules/secondary/storage/user-storage/user
 import { CryptoService } from '@modules/secondary/crypto/crypto.service';
 import { User } from '@modules/secondary/storage/user-storage/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoginDto } from '../user/common/dtos/user.login.dto';
 import { LoginResponse } from './models/login.response';
 import { UserApiService } from '../user/user-api.service';
 import { IJwtPayloadType } from '@common/jwt/types';
+import { LoginRequest } from './models/login.request';
 
 @Injectable()
 export class AuthApiService {
@@ -63,13 +63,13 @@ export class AuthApiService {
     return user;
   }
 
-  async login(userLoginDto: UserLoginDto): Promise<LoginResponse> {
-    const user = await this.userService.getUser({ email: userLoginDto.email });
+  async login(loginRequest: LoginRequest): Promise<LoginResponse> {
+    const user = await this.userService.getUser({ email: loginRequest.email });
 
     const payload: IJwtPayloadType = {
       sub: user.id,
-      email: userLoginDto.email,
-      password: userLoginDto.password
+      email: loginRequest.email,
+      password: loginRequest.password
     };
 
     return {

@@ -4,11 +4,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import { HASH_ROUNDS_QTY } from '@modules/secondary/crypto/constants';
 import * as bcrypt from 'bcryptjs';
+import { DeepGram } from '../deepgram-storage/deppgram.entity';
 
 @Entity('user')
 export class User {
@@ -48,6 +51,10 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToOne(() => DeepGram)
+  @JoinColumn()
+  deepGram: DeepGram;
 
   @BeforeInsert()
   async hashPassword() {

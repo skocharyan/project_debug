@@ -1,2 +1,4 @@
 paykickstart:
-    secret_key: 'OdTNBiZe2FPD'
+  secret_key: 'OdTNBiZe2FPD'
+  subscription_change_url: 'https://app.paykickstart.com/api/subscriptions/change'
+  subscription_cancellation_url: 'https://app.paykickstart.com/api/subscriptions/cancel'

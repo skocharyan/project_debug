@@ -8,13 +8,17 @@ import { buildEmailTemplateUrl } from './common/utils/url.utils';
 import { MessageSendingResponse } from 'postmark/dist/client/models';
 import { SendEmailInput } from './models/sendEmailInput';
 import { TAtLeastOneRequired } from '@common/types/utils/types';
+import { HttpClient } from '@modules/secondary/api/http/http.service';
 
 @Injectable()
 export class UserApiService {
+  private vendorKey: string;
+
   constructor(
     private readonly userStorageService: UserStorageService,
     private readonly cryptoService: CryptoService,
-    private readonly postmarkService: PostmarkService
+    private readonly postmarkService: PostmarkService,
+    private readonly httpClient: HttpClient
   ) {}
 
   async userCreate(payload: SignUpRequest): Promise<User> {

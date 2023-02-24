@@ -1,6 +1,7 @@
 export const DeepGramSchema = {
   properties: {
     key: { type: 'string' },
-    project_id: { type: 'int32' }
+    project_id: { type: 'int32' },
+    baseUrl: { type: 'string' }
   }
 };

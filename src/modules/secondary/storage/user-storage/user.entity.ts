@@ -5,6 +5,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -12,6 +13,8 @@ import {
 import { HASH_ROUNDS_QTY } from '@modules/secondary/crypto/constants';
 import * as bcrypt from 'bcryptjs';
 import { DeepGram } from '../deepgram-storage/deppgram.entity';
+import { Subscription } from '../subscription-storage/subscription.entity';
+import { License } from '../license-storage/license.entity';
 
 @Entity('user')
 export class User {
@@ -43,6 +46,18 @@ export class User {
   })
   password: string;
 
+  @Column({
+    nullable: false,
+    unique: false
+  })
+  credits: number;
+
+  @Column({
+    nullable: false,
+    unique: false
+  })
+  lastLogin: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -55,6 +70,13 @@ export class User {
   @OneToOne(() => DeepGram)
   @JoinColumn()
   deepGram: DeepGram;
+
+  @OneToOne(() => Subscription)
+  @JoinColumn()
+  subscription: Subscription;
+
+  @OneToMany(() => License, (license) => license.user)
+  licenses: License[];
 
   @BeforeInsert()
   async hashPassword() {

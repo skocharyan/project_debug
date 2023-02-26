@@ -8,17 +8,25 @@ import { buildEmailTemplateUrl } from './common/utils/url.utils';
 import { MessageSendingResponse } from 'postmark/dist/client/models';
 import { SendEmailInput } from './models/sendEmailInput';
 import { TAtLeastOneRequired } from '@common/types/utils/types';
-import { HttpClient } from '@modules/secondary/api/http/http.service';
+
+import { Subscription } from '@modules/secondary/storage/subscription-storage/subscription.entity';
+import { DeepGramService } from '../deepgram/deepgram.service';
+import { DeepgramStorageService } from '@modules/secondary/storage/deepgram-storage/deepgram-storage.service';
+import { PaykickstartTriggerService } from '../paykickstart_trigger/paykickstart.trigger.service';
+import {
+  ISubscriptionCancellationResponse,
+  ISubscriptionChangeResponse
+} from '../paykickstart_trigger/common/types/types';
 
 @Injectable()
 export class UserApiService {
-  private vendorKey: string;
-
   constructor(
     private readonly userStorageService: UserStorageService,
     private readonly cryptoService: CryptoService,
     private readonly postmarkService: PostmarkService,
-    private readonly httpClient: HttpClient
+    private readonly paykickstartTriggerService: PaykickstartTriggerService,
+    private readonly deepGramService: DeepGramService,
+    private readonly deepGramStorageService: DeepgramStorageService
   ) {}
 
   async userCreate(payload: SignUpRequest): Promise<User> {
@@ -30,10 +38,17 @@ export class UserApiService {
     // Generate random password
     const generatedRandomPassword =
       await this.cryptoService.generatingRandomPassword();
+    // Generate DeepGram key and store in database
+    const { keyId, key } = await this.deepGramService.createKey(email);
+    const deepGramKey = await this.deepGramStorageService.createOne({
+      keyId,
+      key
+    });
 
     createdUser = await this.createUser({
       ...payload,
-      password: generatedRandomPassword
+      password: generatedRandomPassword,
+      deepGram: deepGramKey
     });
 
     await this.sendGeneratedPasswordUserEmail({
@@ -76,6 +91,58 @@ export class UserApiService {
         to: email
       }
     );
+  }
+
+  async cancelSubscription(
+    currentUser: User
+  ): Promise<ISubscriptionCancellationResponse> {
+    const currentSubscription = currentUser.subscription;
+    this.hasActiveSubscriptionOrThrowException(currentSubscription);
+    const currentDate = new Date();
+    const expireData = currentSubscription.expireDate;
+
+    if (expireData < currentDate) {
+      throw new ForbiddenException('The subscription is expired');
+    }
+
+    const invoiceId = currentSubscription.invoiceId;
+
+    return await this.paykickstartTriggerService.cancel(invoiceId);
+  }
+
+  async downgrade(currentUser: User): Promise<ISubscriptionChangeResponse> {
+    const currentSubscription = currentUser.subscription;
+    this.hasActiveSubscriptionOrThrowException(currentSubscription);
+    const { productId, productName } = currentSubscription.product;
+    const invoiceId = currentSubscription.invoiceId;
+
+    if (productName === 'Pro') {
+      throw new ForbiddenException("You can't downgrade Pro plan");
+    }
+
+    return await this.paykickstartTriggerService.change(productId, invoiceId);
+  }
+
+  async upgrade(currentUser: User): Promise<ISubscriptionChangeResponse> {
+    const currentSubscription = currentUser.subscription;
+    this.hasActiveSubscriptionOrThrowException(currentSubscription);
+    const { productId, productName } = currentSubscription.product;
+
+    if (productName == 'Club') {
+      throw new ForbiddenException('You already have the highest plan');
+    }
+
+    const invoiceId = currentSubscription.invoiceId;
+
+    return this.paykickstartTriggerService.change(productId, invoiceId);
+  }
+
+  private hasActiveSubscriptionOrThrowException(
+    currentSubscription: Subscription
+  ): void {
+    if (!currentSubscription) {
+      throw new ForbiddenException('You do not have a valid subscription');
+    }
   }
 
   async getUser(

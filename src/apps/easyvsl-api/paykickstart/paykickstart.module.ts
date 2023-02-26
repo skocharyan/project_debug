@@ -1,18 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PaykickstartController } from './paykickstart.controller';
 import { UserApiModule } from '../user/user-api.module';
+import { PaykickstartController } from './paykickstart.controller';
 import { PaykickstartService } from './paykickstart.service';
-import { HttpModule } from '@modules/secondary/api/http/http.module';
-
 @Module({
-  imports: [
-    UserApiModule,
-    HttpModule.register({
-      baseUrl: '',
-      timeout: 5000,
-      keepAlive: false
-    })
-  ],
+  imports: [UserApiModule],
   controllers: [PaykickstartController],
   providers: [PaykickstartService]
 })

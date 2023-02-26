@@ -1,4 +1,5 @@
-import { IsEmail, IsString } from 'class-validator';
+import { DeepGram } from '@modules/secondary/storage/deepgram-storage/deppgram.entity';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserInput {
   @IsString()
@@ -13,4 +14,7 @@ export class CreateUserInput {
   @IsString()
   @IsEmail()
   email: string;
+
+  @IsOptional()
+  deepGram: DeepGram;
 }

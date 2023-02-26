@@ -3,7 +3,13 @@ import { Module } from '@nestjs/common';
 import { DeepGramService } from './deepgram.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [
+    HttpModule.register({
+      baseUrl: '',
+      timeout: 5000,
+      keepAlive: false
+    })
+  ],
   providers: [DeepGramService],
   exports: [DeepGramService]
 })

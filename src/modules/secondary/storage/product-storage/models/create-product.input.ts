@@ -1,4 +1,4 @@
 export interface ICreateProductInput {
-  productId: string;
+  productId: number;
   productName: string;
 }

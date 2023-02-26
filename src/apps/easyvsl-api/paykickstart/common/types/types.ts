@@ -65,13 +65,3 @@ export type TPayKickstartProductsByTypesEventHandlersPayload = {
 export type TPayKickstartEventsHandler = (data: {
   payload: TPayKickstartEventsHandleEventPayload;
 }) => Promise<void>;
-
-export interface ISubscriptionCancellationResponse {
-  success: number;
-  message: string;
-}
-
-export interface ISubscriptionChangeResponse {
-  code: number;
-  message: string;
-}

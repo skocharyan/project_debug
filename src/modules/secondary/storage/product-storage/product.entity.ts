@@ -10,7 +10,7 @@ export class Product {
     nullable: false,
     unique: true
   })
-  productId: string;
+  productId: number;
 
   @Column({
     nullable: false,

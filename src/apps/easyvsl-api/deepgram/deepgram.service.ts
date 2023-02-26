@@ -19,7 +19,7 @@ export class DeepGramService {
     this.deepGramKey = config.deepGram.project_id;
   }
 
-  async createKey(comment: string, scope: string[]): Promise<IReturnKey> {
+  async createKey(comment: string, scope: string[] = []): Promise<IReturnKey> {
     const deepGramBaseUrl = config.deepGram.baseUrl;
     const endpoint =
       deepGramBaseUrl + `${this.projectId}/keys/${this.deepGramKey}`;
@@ -48,9 +48,9 @@ export class DeepGramService {
     return { keyId, key };
   }
 
-  async deleteKey(key_id: string): Promise<boolean> {
+  async deleteKey(keyId: string): Promise<boolean> {
     const deepGramBaseUrl = config.deepGram.baseUrl;
-    const endpoint = deepGramBaseUrl + this.projectId + '/keys/' + key_id;
+    const endpoint = deepGramBaseUrl + this.projectId + '/keys/' + keyId;
 
     const delConfig: AxiosRequestConfig = {
       headers: {
@@ -58,7 +58,6 @@ export class DeepGramService {
         contentType: 'application / json'
       }
     };
-
     const response = await this.httpClient.delete<IDeepGramCreateResponse>(
       endpoint,
       delConfig
